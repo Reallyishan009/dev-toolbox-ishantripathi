@@ -54,7 +54,7 @@ const Home = () => {
         Boost your productivity with a suite of powerful developer utilities — instantly format JSON, seamlessly encode and decode Base64, use intuitive copy features, and switch between light and dark modes to match your style and comfort.
        </Paragraph>
 
-      {/* Hero image */}
+      {/* image */}
       <img
         src="https://cdn-icons-png.flaticon.com/512/2721/2721286.png"
         alt="Toolbox"

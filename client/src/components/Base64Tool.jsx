@@ -34,7 +34,7 @@ function Base64Tool() {
     }
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/encode`, {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/encode`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -59,7 +59,7 @@ function Base64Tool() {
 
 
   const decode = async () => {
-    const res = await fetch("http://localhost:5050/decode", {
+    const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/decode`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ base64: input }),
