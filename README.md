@@ -10,6 +10,7 @@
 - 🧹 JSON Formatter
 - 🔐 Base64 Encoder/Decoder
 - 🕘 JSON History Viewer (MongoDB-backed)
+- 💡Toggle Dark Button
 
 ## Prerequisites
 - Node.js (v18+ recommended)
