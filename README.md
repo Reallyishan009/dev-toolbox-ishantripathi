@@ -32,10 +32,6 @@
    - `npm run dev`
    - Client runs on: http://localhost:5173
 
-## Live Deployment
-- Frontend: https://dev-toolbox-ishantripathi.vercel.app
-- Backend: https://dev-toolbox-ishantripathi.onrender.com
-
 ## Future Improvements
 
 ### 🔐 Authentication System
@@ -80,5 +76,4 @@
 
 ## Author
 - **Ishan Tripathi**
-- LinkedIn profile available
-- GitHub profile available
+- LinkedIn :[https://www.linkedin.com/in/ishan-tripathi-891b31229/]
