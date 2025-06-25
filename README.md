@@ -6,6 +6,26 @@
 - Node.js + Express on backend  
 - MongoDB Atlas for persistent storage
 
+## 📦 Libraries & Dependencies
+
+### 🔧 Backend (Node.js + Express)
+- `express` – Web server
+- `cors` – CORS handling
+- `dotenv` – Load environment variables
+- `mongodb` – MongoDB client
+- `nodemon` – Auto-restart server in development
+
+
+
+### 🌐 Frontend (React + Vite)
+- `react` & `react-dom` – UI library
+- `vite` – Fast frontend build tool
+- `antd` – Ant Design component library
+- `react-hot-toast` – Toast notifications
+- `react-router-dom` – Routing 
+
+  
+
 ## Current Features
 - 🧹 JSON Formatter
 - 🔐 Base64 Encoder/Decoder
