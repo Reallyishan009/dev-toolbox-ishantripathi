@@ -27,6 +27,7 @@ function JSONFormatter() {
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
 
+  
   const handleFormat = async () => {
     if (!input.trim()) {
       toast.error("Please enter valid JSON input");
@@ -34,7 +35,7 @@ function JSONFormatter() {
     }
 
     try {
-      const res = await fetch("http://localhost:5050/format-json", {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/format-json`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ json: input }),
@@ -267,7 +268,7 @@ function JSONFormatter() {
         </div>
       </div>
 
-      {/* Format Button at Bottom */}
+      {/* Format Button  */}
       <div style={{ textAlign: "center", marginBottom: "20px" }}>
         <Button
           type="primary"

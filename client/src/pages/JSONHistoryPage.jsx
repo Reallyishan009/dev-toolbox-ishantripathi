@@ -10,7 +10,7 @@ function JSONHistoryPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/json-history`)
+    fetch(`${import.meta.env.VITE_API_BASE_URL}/api/json-history`)
       .then((res) => res.json())
       .then((data) => {
         setHistory(data);
@@ -32,7 +32,7 @@ function JSONHistoryPage() {
         boxSizing: "border-box",
       }}
     >
-      {/* Top Bar with Navigation and Dark Mode Toggle */}
+      {/*  Navigation and Dark Mode Toggle */}
       <div
         style={{
           position: "fixed",
