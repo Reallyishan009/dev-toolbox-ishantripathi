@@ -28,34 +28,28 @@ function JSONFormatter() {
   const [copied, setCopied] = useState(false);
 
   
-  const handleFormat = async () => {
-    if (!input.trim()) {
-      toast.error("Please enter valid JSON input");
-      return;
+  // Make sure you're using the correct endpoint
+const handleFormatJson = async (jsonText) => {
+  try {
+    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/json-formatter`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ json: jsonText })
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    try {
-      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/format-json`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ json: input }),
-      });
-
-      const data = await res.json();
-
-      if (data.success) {
-        setOutput(data.formatted);
-        setError("");
-        toast.success("Formatted and saved!");
-      } else {
-        setOutput("");
-        setError(data.error);
-      }
-    } catch (error) {
-      toast.error("Server error");
-      console.error("Error formatting:", error);
-    }
-  };
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error formatting JSON:', error);
+    throw error;
+  }
+};
 
 
   const handleCopy = async () => {

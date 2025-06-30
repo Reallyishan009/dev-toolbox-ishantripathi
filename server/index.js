@@ -88,6 +88,26 @@ app.post("/decode", (req, res) => {
   }
 });
 
+// JSON formatter endpoint (alternative route name)
+app.post("/json-formatter", async (req, res) => {
+  if (!db) return res.status(500).json({ success: false, error: "Database not connected yet" });
+  
+  const { json } = req.body;
+  try {
+    const parsed = JSON.parse(json);
+    const formatted = JSON.stringify(parsed, null, 4);
+    
+    await db.collection("json_history").insertOne({
+      json: formatted,
+      timestamp: new Date()
+    });
+    
+    res.json({ success: true, formatted });
+  } catch (error) {
+    res.status(400).json({ success: false, error: error.message });
+  }
+});
+
 // JSON history endpoint
 app.get("/api/json-history", async (req, res) => {
   if (!db) {
@@ -116,6 +136,14 @@ app.get("/api/json-history", async (req, res) => {
 app.use((err, req, res, next) => {
   console.error('Unhandled error:', err);
   res.status(500).json({ success: false, error: 'Internal server error' });
+});
+
+// 404 handler - must be after all other routes
+app.use('*', (req, res) => {
+  res.status(404).json({ 
+    success: false, 
+    error: `Route ${req.originalUrl} not found` 
+  });
 });
 
 // Start server
