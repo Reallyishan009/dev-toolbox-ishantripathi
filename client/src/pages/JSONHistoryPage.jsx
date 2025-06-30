@@ -10,18 +10,28 @@ function JSONHistoryPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_BASE_URL}/api/json-history`)
-      .then((res) => res.json())
-      .then((data) => {
-        setHistory(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Failed to fetch JSON history:", err);
-        setLoading(false);
-      });
-  }, []);
-
+  const apiUrl = `${import.meta.env.VITE_API_BASE_URL}/api/json-history`;
+  console.log('Fetching from:', apiUrl); // Debug log
+  
+  fetch(apiUrl)
+    .then((res) => {
+      console.log('Response status:', res.status); // Debug log
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      return res.json();
+    })
+    .then((data) => {
+      console.log('Data received:', data); // Debug log
+      setHistory(data);
+      setLoading(false);
+    })
+    .catch((err) => {
+      console.error("Failed to fetch JSON history:", err);
+      console.error("API URL used:", apiUrl); // Debug log
+      setLoading(false);
+    });
+}, []);
   return (
     <div
       style={{
