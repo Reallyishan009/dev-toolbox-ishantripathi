@@ -1,10 +1,19 @@
-# Dev Toolbox - Complete Overview
+# 🧰 Dev Toolbox – by Ishan Tripathi
 
-## Project Description
-- Developer-focused utility web app
-- Built with React (Vite) on frontend
-- Node.js + Express on backend  
-- MongoDB Atlas for persistent storage
+Dev Toolbox is a feature-rich full stack web application built to streamline a developer’s daily workflow. It offers tools like JSON Formatter, Base64 Encoder/Decoder, and a MongoDB-backed JSON History Viewer, with a clean UI and dark mode support.
+
+🔗 **Live Frontend:** [https://dev-toolbox-ishantripathi.netlify.app](https://dev-toolbox-ishantripathi.netlify.app)
+
+---
+
+## 🖥️ Project Overview
+
+- ⚛️ **Frontend:** React (Vite), Ant Design, React Hot Toast
+- 🚀 **Backend:** Node.js + Express
+- 🗃️ **Database:** MongoDB Atlas
+- 🌐 **Deployment:** Frontend on **Netlify**, backend to be deployed on Render/Heroku/your server
+
+---
 
 ## 📦 Libraries & Dependencies
 
