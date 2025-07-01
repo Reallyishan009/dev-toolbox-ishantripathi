@@ -1,0 +1,111 @@
+/* Overall Page Layout */
+.formatter-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f2f6fc;
+    min-height: 100vh;
+}
+
+/* Heading */
+.formatter-heading {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 32px;
+    color: #333;
+}
+
+/* Buttons */
+.formatter-controls {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.formatter-controls button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+.formatter-controls button:hover {
+    background: linear-gradient(135deg, #5b0fbb 0%, #1c63e2 100%);
+    transform: translateY(-2px);
+}
+
+.formatter-controls button:active {
+    transform: scale(0.98);
+}
+
+/* 💡 Side-by-side layout */
+.formatter-side-by-side {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 30px;
+    width: 100%;
+    max-width: 1200px;
+    flex-wrap: nowrap; /* 👈 Keeps boxes side-by-side */
+}
+
+/* Individual Box Style */
+.formatter-box {
+    flex: 1;
+    max-width: 50%;
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.formatter-box h4 {
+    margin-bottom: 10px;
+    color: #444;
+    font-size: 18px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 6px;
+}
+
+/* Textarea Style */
+.formatter-textarea {
+    width: 100%;
+    height: 300px;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    background-color: #f8f9fb;
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.05);
+    resize: vertical;
+    color: #333;
+    outline: none;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.formatter-textarea:focus {
+    background-color: #eef2f7;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* 💡 Optional: Make layout responsive on very small screens */
+@media (max-width: 768px) {
+    .formatter-side-by-side {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .formatter-box {
+        max-width: 100%;
+    }
+}

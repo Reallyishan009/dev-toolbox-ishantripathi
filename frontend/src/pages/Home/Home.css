@@ -1,52 +1,118 @@
-.home-header{
-    background-color: #3970de;
+/* Header */
+.home-header {
+    background: linear-gradient(135deg, #4c4e52, #2756b1);
     color: white;
-    padding: 20px;
+    padding: 30px 20px;
     text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.home-content{
+/* Topmost h2 inside header */
+.home-header h2 {
+    font-size: 23px;
+    font-weight: 700;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+    margin: 0;
+}
+
+.home-header p {
+    margin: 10px 0 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #f0f0f0;
+    max-width: 800px;
+    margin: 10px auto 0;
+    padding: 0 20px;
+    text-align: center;
+}   
+
+/* Main content layout */
+.home-content {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    padding: 40px 20px;
+    background-color: #f8faff;
 }
 
-.home-card{
-    background-color: #f0f0f0;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(227, 126, 126, 0.1);
-    padding: 20px;
+/* Cards */
+.home-card {
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    padding: 25px;
     margin: 20px;
-    width: 80%;
-}
-.home-card h2{
-    color: #284072;
+    width: 85%;
+    max-width: 900px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.home-card ul{
+.home-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+}
+
+.home-card h2 {
+    color: #274a8e;
+    font-size: 20px;
+    margin-bottom: 14px;
+}
+
+.home-card h3 {
+    color: #36454f;
+    font-size: 17px;
+    margin-bottom: 8px;
+}
+
+.home-card p {
+    color: #444;
+    line-height: 1.5;
+    font-size: 14px;
+}
+
+/* List inside card */
+.home-card ul {
     list-style-type: none;
     padding: 0;
-}
-.home-card li{
     margin: 10px 0;
 }
-.home-card h3{
-    color: #303d3c;
-}
-.home-card p{
+
+.home-card li {
+    margin: 8px 0;
+    padding-left: 18px;
+    position: relative;
+    font-size: 13.5px;
     color: #333;
 }
-.home-card button{  
-    background-color: #6787b8;
+
+.home-card li::before {
+    content: '•';
+    color: #3970de;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+}
+
+/* Buttons */
+.home-card button {
+    background: linear-gradient(135deg, #4e89ff, #3161c3);
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
+    padding: 10px 22px;
+    border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
 }
-.home-card button:hover{
-    background-color: #2851a3;
-}   
+
+.home-card button:hover {
+    background: linear-gradient(135deg, #376de0, #234aa6);
+    transform: translateY(-2px);
+}

@@ -22,7 +22,7 @@ const Navbar = () => {
           Formatter
         </li>
         <li
-          onClick={() => handleMenuClick("Encoder/Decoder", "/encoder")}
+          onClick={() => handleMenuClick("Encoder/Decoder", "/encoder-decoder")}
           className={menu === "Encoder/Decoder" ? "active" : ""}
         >
           Encoder/Decoder

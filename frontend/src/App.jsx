@@ -3,6 +3,10 @@ import Navbar from './components/Navbar/Navbar'
 import { Routes,Route } from 'react-router-dom'
 import Home from './pages/Home/Home'
 import axios from 'axios'
+import Formatter from './pages/Formatter/Formatter'
+import EncoderDecoder from './pages/EncoderDecoder/EncoderDecoder'
+import JsonHistory from './pages/JsonHistory/JsonHistory'
+
 
 
 
@@ -20,13 +24,13 @@ const App = () => {
 
   return (
     <div className='app'>
-      <Navbar />
-        <Routes>
-          <Route path='/' element={<Home/>} />
-        {/* <Route path='/formatter' element={<Formatter/>} />
-        <Route path='/encoder-decoder' element={<Encoder-Decoder/>} />
-        <Route path='/json-history' element={<Jason-History/>} /> */}
-        </Routes>
+    <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/formatter" element={<Formatter />} />
+        <Route path="/encoder-decoder" element={<EncoderDecoder/>} />
+        <Route path="/json-history" element={<JsonHistory />} />
+      </Routes>
     </div>
   )
 }
