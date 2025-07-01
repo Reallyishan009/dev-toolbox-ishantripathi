@@ -1,0 +1,52 @@
+.home-header{
+    background-color: #3970de;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.home-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.home-card{
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(227, 126, 126, 0.1);
+    padding: 20px;
+    margin: 20px;
+    width: 80%;
+}
+.home-card h2{
+    color: #284072;
+}
+
+.home-card ul{
+    list-style-type: none;
+    padding: 0;
+}
+.home-card li{
+    margin: 10px 0;
+}
+.home-card h3{
+    color: #303d3c;
+}
+.home-card p{
+    color: #333;
+}
+.home-card button{  
+    background-color: #6787b8;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.home-card button:hover{
+    background-color: #2851a3;
+}   
