@@ -46,8 +46,28 @@ client.connect()
     console.error("MongoDB connection failed:", err);
   });
 
-// JSON formatting endpoint
+// JSON formatting endpoint (original route)
 app.post("/format-json", async (req, res) => {
+  if (!db) return res.status(500).json({ success: false, error: "Database not connected yet" });
+  
+  const { json } = req.body;
+  try {
+    const parsed = JSON.parse(json);
+    const formatted = JSON.stringify(parsed, null, 4);
+    
+    await db.collection("json_history").insertOne({
+      json: formatted,
+      timestamp: new Date()
+    });
+    
+    res.json({ success: true, formatted });
+  } catch (error) {
+    res.status(400).json({ success: false, error: error.message });
+  }
+});
+
+// JSON formatting endpoint (alternative route name)
+app.post("/json-formatter", async (req, res) => {
   if (!db) return res.status(500).json({ success: false, error: "Database not connected yet" });
   
   const { json } = req.body;
@@ -85,26 +105,6 @@ app.post("/decode", (req, res) => {
     res.json({ success: true, decoded });
   } catch (err) {
     res.status(400).json({ success: false, error: "Invalid base64 input" });
-  }
-});
-
-// JSON formatter endpoint (alternative route name)
-app.post("/json-formatter", async (req, res) => {
-  if (!db) return res.status(500).json({ success: false, error: "Database not connected yet" });
-  
-  const { json } = req.body;
-  try {
-    const parsed = JSON.parse(json);
-    const formatted = JSON.stringify(parsed, null, 4);
-    
-    await db.collection("json_history").insertOne({
-      json: formatted,
-      timestamp: new Date()
-    });
-    
-    res.json({ success: true, formatted });
-  } catch (error) {
-    res.status(400).json({ success: false, error: error.message });
   }
 });
 

@@ -26,6 +26,7 @@ function Base64Tool() {
   const [output, setOutput] = useState("");
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const encode = async () => {
     if (!input) {
@@ -34,7 +35,13 @@ function Base64Tool() {
     }
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/encode`, {
+      setLoading(true);
+      setError("");
+      
+      const apiUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+      console.log('API URL:', apiUrl); // Debug log
+      
+      const res = await fetch(`${apiUrl}/encode`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -42,32 +49,66 @@ function Base64Tool() {
         body: JSON.stringify({ text: input }),
       });
 
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+
       const data = await res.json();
 
       if (data.success) {
         setOutput(data.encoded);
         toast.success("Encoded successfully!");
       } else {
-        toast.error("Encoding failed.");
+        throw new Error(data.error || "Encoding failed");
       }
     } catch (err) {
       console.error("Encoding error:", err);
-      toast.error("An error occurred while encoding.");
+      setError(err.message);
+      toast.error(`Encoding failed: ${err.message}`);
+    } finally {
+      setLoading(false);
     }
   };
 
-
-
   const decode = async () => {
-    const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/decode`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ base64: input }),
-    });
-    const data = await res.json();
-    setOutput(data.decoded);
-  };
+    if (!input) {
+      toast.error("Please enter Base64 text to decode");
+      return;
+    }
 
+    try {
+      setLoading(true);
+      setError("");
+      
+      const apiUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+      console.log('API URL:', apiUrl); // Debug log
+      
+      const res = await fetch(`${apiUrl}/decode`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ base64: input }),
+      });
+
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+
+      const data = await res.json();
+      
+      if (data.success) {
+        setOutput(data.decoded);
+        toast.success("Decoded successfully!");
+      } else {
+        throw new Error(data.error || "Decoding failed");
+      }
+    } catch (err) {
+      console.error("Decoding error:", err);
+      setError(err.message);
+      toast.error(`Decoding failed: ${err.message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleReset = () => {
     setInput("");
@@ -84,6 +125,7 @@ function Base64Tool() {
     try {
       await navigator.clipboard.writeText(output);
       setCopied(true);
+      setTimeout(() => setCopied(false), 2000); // Reset after 2 seconds
       toast.success("Output copied to clipboard!");
     } catch (err) {
       console.error("Copy failed:", err);
@@ -96,11 +138,13 @@ function Base64Tool() {
 
   const loadSampleEncode = () => {
     setInput(sampleEncode);
+    setError("");
     toast.success("Sample input for encoding loaded!");
   };
 
   const loadSampleDecode = () => {
     setInput(sampleDecode);
+    setError("");
     toast.success("Sample input for decoding loaded!");
   };
 
@@ -199,6 +243,7 @@ function Base64Tool() {
             <Button
               icon={<LockOutlined />}
               onClick={encode}
+              loading={loading}
               style={{
                 backgroundColor: "#e6f7ff",
                 color: "#1890ff",
@@ -211,6 +256,7 @@ function Base64Tool() {
             <Button
               icon={<UnlockOutlined />}
               onClick={decode}
+              loading={loading}
               style={{
                 backgroundColor: "#fffbe6",
                 color: "#faad14",

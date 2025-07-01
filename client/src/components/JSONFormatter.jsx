@@ -15,8 +15,7 @@ import {
 } from "@ant-design/icons";
 import toast, { Toaster } from "react-hot-toast";
 import NavigationMenu from "../pages/navigation.jsx"; 
-import DarkModeToggle from "../components/DarkModeToggle.jsx"; // adjust path if needed
-
+import DarkModeToggle from "../components/DarkModeToggle.jsx";
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -26,31 +25,66 @@ function JSONFormatter() {
   const [output, setOutput] = useState("");
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  
-  // Make sure you're using the correct endpoint
-const handleFormatJson = async (jsonText) => {
-  try {
-    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/json-formatter`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ json: jsonText })
-    });
+  // Fixed API call function
+  const handleFormatJson = async (jsonText) => {
+    try {
+      setLoading(true);
+      setError("");
+      
+      const apiUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+      console.log('API URL:', apiUrl); // Debug log
+      
+      const response = await fetch(`${apiUrl}/json-formatter`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ json: jsonText })
+      });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      
+      if (data.success) {
+        setOutput(data.formatted);
+        toast.success("JSON formatted successfully!");
+        return data;
+      } else {
+        throw new Error(data.error || 'Failed to format JSON');
+      }
+    } catch (error) {
+      console.error('Error formatting JSON:', error);
+      setError(error.message);
+      toast.error(`Error formatting JSON: ${error.message}`);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Fixed format function - this was missing!
+  const handleFormat = async () => {
+    if (!input.trim()) {
+      toast.error("Please enter JSON to format!");
+      return;
     }
 
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Error formatting JSON:', error);
-    throw error;
-  }
-};
-
+    try {
+      // First validate JSON locally
+      JSON.parse(input);
+      await handleFormatJson(input);
+    } catch (error) {
+      if (error instanceof SyntaxError) {
+        setError("Invalid JSON syntax");
+        toast.error("Invalid JSON syntax");
+      }
+    }
+  };
 
   const handleCopy = async () => {
     if (!output) {
@@ -60,6 +94,7 @@ const handleFormatJson = async (jsonText) => {
     try {
       await navigator.clipboard.writeText(output);
       setCopied(true);
+      setTimeout(() => setCopied(false), 2000); // Reset after 2 seconds
       toast.success("Formatted JSON copied to clipboard!");
     } catch (err) {
       console.error("Failed to copy:", err);
@@ -78,10 +113,10 @@ const handleFormatJson = async (jsonText) => {
 
   const loadSample = () => {
     setInput(sampleJson);
+    toast.success("Sample JSON loaded!");
   };
 
   return (
-    
     <div
       style={{
         width: "100vw",
@@ -104,15 +139,14 @@ const handleFormatJson = async (jsonText) => {
     >
       <Toaster />
 
-      {/* Responsive Navbar */}
+      {/* Navigation */}
       <div style={{ position: "absolute", top: 20, left: 20, zIndex: 10 }}>
         <NavigationMenu />
       </div>
 
-        <div style={{ position: "absolute", top: 20, right: 20, zIndex: 10 }}>
+      <div style={{ position: "absolute", top: 20, right: 20, zIndex: 10 }}>
         <DarkModeToggle />
-        </div>
-
+      </div>
 
       {/* Header */}
       <div
@@ -121,7 +155,7 @@ const handleFormatJson = async (jsonText) => {
           textShadow: "0px 3px 8px rgba(0, 0, 0, 0.2)",
           fontSize: "32px",
           fontWeight: "bold",
-          color: "#2c3e50",
+          color: "var(--text-color)",
           backgroundColor: "var(--box-background)",
           padding: "10px 30px",
           borderRadius: "16px",
@@ -155,7 +189,7 @@ const handleFormatJson = async (jsonText) => {
             boxShadow: "0 6px 16px rgba(0, 0, 0, 0.1)"
           }}
         >
-          <Title level={5} style={{ marginBottom: 12, color: "#34495e" }}>
+          <Title level={5} style={{ marginBottom: 12, color: "var(--text-color)" }}>
             Raw JSON Input
           </Title>
           <TextArea
@@ -168,9 +202,10 @@ const handleFormatJson = async (jsonText) => {
               fontSize: "14px",
               border: "1px solid #ccc",
               borderRadius: "10px",
-              background: "#f8f9fa",
+              background: "var(--box-background)",
               boxShadow: "inset 2px 2px 6px rgba(0,0,0,0.03)",
-              flex: 1
+              flex: 1,
+              color: "var(--text-color)"
             }}
           />
           <div style={{ display: "flex", justifyContent: "space-between", marginTop: "12px" }}>
@@ -214,7 +249,7 @@ const handleFormatJson = async (jsonText) => {
           }}
         >
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px" }}>
-            <Title level={5} style={{ margin: 0, color: "#34495e" }}>Formatted Output</Title>
+            <Title level={5} style={{ margin: 0, color: "var(--text-color)" }}>Formatted Output</Title>
             {output && (
               <Tooltip title={copied ? "Copied!" : "Copy to clipboard"}>
                 <Button
@@ -253,21 +288,23 @@ const handleFormatJson = async (jsonText) => {
               fontFamily: "'Fira Code', monospace",
               fontSize: "14px",
               borderRadius: "10px",
-              background: "#fdfdfd",
+              background: "var(--box-background)",
               border: "1px solid #ccc",
               boxShadow: "inset 2px 2px 6px rgba(0,0,0,0.03)",
-              flex: 1
+              flex: 1,
+              color: "var(--text-color)"
             }}
           />
         </div>
       </div>
 
-      {/* Format Button  */}
+      {/* Format Button */}
       <div style={{ textAlign: "center", marginBottom: "20px" }}>
         <Button
           type="primary"
           icon={<FormatPainterOutlined />}
           onClick={handleFormat}
+          loading={loading}
           size="large"
           style={{
             padding: "0 36px",
@@ -279,7 +316,7 @@ const handleFormatJson = async (jsonText) => {
             fontWeight: 600
           }}
         >
-          Format JSON
+          {loading ? "Formatting..." : "Format JSON"}
         </Button>
       </div>
     </div>
